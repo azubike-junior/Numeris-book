@@ -1,101 +1,196 @@
-import Image from "next/image";
+'use client'
+
+import Button from '@/components/Button'
+import ActionCard from '@/components/Cards/ActionCard'
+import InvoiceCard from '@/components/Cards/InvoiceCard'
+import SingleActivity from '@/components/Cards/SingleActivity'
+import SingleInvoice from '@/components/Cards/SingleInvoice'
+import Header from '@/components/Header'
+import Modal from '@/components/Modal'
+import Sidebar from '@/components/Sidebar'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isModalOpen]);
+
+
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen)
+  }
+  return (
+    <div className="w-full flex">
+      <Sidebar />
+
+      <div className="w-10/12 bg-[#F5F6FA] h-full pb-10 px-10 pt-8 ml-[17%]">
+        <Header />
+
+        <div className="flex justify-between items-center pt-10">
+          <h4 className="font-semibold text-3xl tracking-wide">Invoice</h4>
+
+          <div className=" flex space-x-10">
+            <Button
+              onClick={toggleModal}
+              className="border-[#E3E6EF] border-[1px] bg-white w-[15rem] py-5 text-[#697598] tracking-widest font-neueMedium text-base uppercase  "
+              text="see what’s new"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <Button
+              className="bg-secondary text-white w-[15rem] py-5 tracking-widest font-neueMedium text-base uppercase "
+              text="create"
+            />
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+
+        <div className="grid grid-cols-4 gap-8 pt-10">
+          <InvoiceCard
+            status="Total Paid"
+            num="1,222"
+            amount="$4,120,102."
+            decimal="76"
+            className="bg-[#B6FDD3]"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <InvoiceCard
+            status="Total overdue"
+            num="13"
+            amount="$23,000."
+            decimal="13"
+            className="bg-[#FFB7BD]"
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <InvoiceCard
+            status="Total draft"
+            num="08"
+            amount="$12,200."
+            decimal="00"
+            className="bg-[#D9D9E0]"
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <InvoiceCard
+            status="Total unpaid"
+            num="06"
+            amount="$87,102."
+            decimal="00"
+            className="bg-[#F8E39B]"
+          />
+        </div>
+
+        <div className="pt-10 tracking-widest flex space-x-2 justify-between items-center">
+          <h3 className="font-neueLight font-semibold text-[20px]">
+            Invoice Actions
+          </h3>{' '}
+          <div className="w-10/12 h-[0.8px] bg-white"></div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-8 pt-6 ">
+          <ActionCard
+            icon="/dollar.svg"
+            title="Create New Invoice"
+            subtitle="Create new invoices easily"
+            className=" bg-secondary"
+            name="invoice"
+          />
+          <ActionCard
+            icon="/invoice_settings.svg"
+            title="Change Invoice settings"
+            className=" bg-white"
+            subtitle="Customise your invoices "
+          />
+          <ActionCard
+            icon="/customer_list.svg"
+            title="Manage Customer list"
+            className=" bg-white"
+            subtitle="Add and remove customers "
+          />
+        </div>
+
+        <div className="flex gap-8 mt-6">
+          <div className="w-7/12 bg-white  p-8  rounded-[40px]">
+            <div className="flex justify-between items-center">
+              <h4 className="font-neueMedium text-[20px] text-[#1F1F23] tracking-wide">
+                Recent Invoices
+              </h4>
+
+              <Button
+                className="border-[#E3E6EF] border-[0.8px] bg-white w-[15rem] py-5  text-secondary text-xs font-neueMedium tracking-wider uppercase "
+                text="View All invoices"
+              />
+            </div>
+
+            <div>
+              <p className="uppercase font-neueMedium font-semibold text-xs tracking-wider text-[#1F1F23] pt-4">
+                today - 27th November, 2022
+              </p>
+
+              <div className="p-8 tracking-wider space-y-8">
+                <SingleInvoice status="PAID" />
+                <SingleInvoice status="OVERDUE" />
+              </div>
+            </div>
+            <div>
+              <p className="uppercase font-neueMedium font-semibold text-xs tracking-wider text-[#1F1F23] pt-2">
+                8th december, 2022
+              </p>
+
+              <div className="p-8 tracking-wider space-y-8">
+                <SingleInvoice status="DRAFT" />
+                <SingleInvoice status="PENDING PAYMENT" />
+                <SingleInvoice status="PAID" />
+              </div>
+            </div>
+          </div>
+          <div className="w-5/12 bg-white rounded-[40px] p-8">
+            <div className="flex justify-between items-center">
+              <h4 className="font-neueMedium text-[20px] text-[#1F1F23] tracking-wide">
+                Recent Activities
+              </h4>
+
+              <Button
+                className="border-[#E3E6EF] border-[0.8px] bg-white w-[7rem] py-5  text-secondary text-xs font-neueMedium tracking-widest uppercase "
+                text="View All"
+              />
+            </div>
+
+            <div className="space-y-5 pt-4">
+              <SingleActivity
+                title="Invoice creation"
+                date="Yesterday, 12:05 PM"
+                type="Created invoice"
+                subtitle="00239434/Olaniyi Ojo Adewale"
+              />
+              <SingleActivity
+                title="Invoice creation"
+                date="Yesterday, 12:05 PM"
+                type="Created invoice"
+                subtitle="00239434/Olaniyi Ojo Adewale"
+              />
+              <SingleActivity
+                title="Invoice creation"
+                date="Yesterday, 12:05 PM"
+                type="Created invoice"
+                subtitle="00239434/Olaniyi Ojo Adewale"
+              />{' '}
+              <SingleActivity
+                title="Invoice creation"
+                date="Yesterday, 12:05 PM"
+                type="Created invoice"
+                subtitle="00239434/Olaniyi Ojo Adewale"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {isModalOpen && <Modal toggleModal={toggleModal} />}
     </div>
-  );
+  )
 }

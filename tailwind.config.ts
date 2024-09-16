@@ -8,9 +8,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        neueLight: ['var(--font-neueHaasLight)'],
+        neueMedium: ['var(--font-neueHaasMedium)'],
+        neueBold: ['var(--font-neueHaasBold)'],
+      },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+       secondary: "#003EFF"
       },
     },
   },
