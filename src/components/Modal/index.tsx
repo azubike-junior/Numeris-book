@@ -20,14 +20,14 @@ const Modal = ({ toggleModal }: prop) => {
 
   useEffect(() => {
     if (openMore) {
-  // @ts-ignore
+      // @ts-expect-error needed to pass an event
       document.addEventListener('mousedown', handleClickOutside)
     } else {
-  // @ts-ignore
+      // @ts-expect-error needed to pass an event
       document.removeEventListener('mousedown', handleClickOutside)
     }
     return () => {
-  // @ts-ignore
+      // @ts-expect-error needed to pass an event
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [openMore])

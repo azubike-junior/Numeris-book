@@ -4,7 +4,7 @@ import React from 'react';
 type prop = {
   text: string
   className: string
-  onClick?: any
+  onClick?: () => void
   icon? : boolean
 }
 
