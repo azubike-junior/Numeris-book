@@ -17,6 +17,7 @@ const Countdown = () => {
 
   const [time, setTime] = useState(initialTime)
   const [isRunning, setIsRunning] = useState(false)
+  // @typescript-eslint/no-explicit-any
   const timerRef = useRef<any>(null)
 
   const tick = () => {
