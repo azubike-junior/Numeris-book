@@ -17,7 +17,13 @@ const Countdown = () => {
 
   const [time, setTime] = useState(initialTime)
   const [isRunning, setIsRunning] = useState(false)
-  
+  const [inputTime, setInputTime] = useState('96:59:58:43')
+
+  const parseTimeInput = (input: any) => {
+    const [days, hours, minutes, seconds] = input.split(':').map(Number)
+    return { days, hours, minutes, seconds }
+  }
+
   const timerRef = useRef(null)
 
   const tick = () => {
@@ -45,7 +51,7 @@ const Countdown = () => {
         minutes === targetTime.minutes &&
         seconds === targetTime.seconds
       ) {
-        // @ts-ignore
+        //@ts-ignore
         clearInterval(timerRef.current)
         return prevTime // Don't increment further after target time
       }
@@ -67,7 +73,7 @@ const Countdown = () => {
   const startTimer = () => {
     if (!isRunning) {
       setIsRunning(true)
-      // @ts-ignore
+      //@ts-ignore
       timerRef.current = setInterval(tick, 1000) // Tick every second
     }
   }
@@ -75,14 +81,23 @@ const Countdown = () => {
   const stopTimer = () => {
     if (isRunning) {
       setIsRunning(false)
-      // @ts-ignore
+      //@ts-ignore
       clearInterval(timerRef.current)
     }
   }
 
+  const handleInputChange = (e: any) => {
+    setInputTime(e.target.value)
+  }
+
+  const setStartTime = () => {
+    const parsedTime = parseTimeInput(inputTime)
+    setTime(parsedTime)
+  }
+
   useEffect(() => {
     return () => {
-      // @ts-ignore
+      //@ts-ignore
       clearInterval(timerRef.current) // Clean up on component unmount
     }
   }, [])
@@ -90,6 +105,22 @@ const Countdown = () => {
   return (
     <div className="h-screen flex justify-center items-center">
       <div>
+        <div className='w-full flex justify-center'>
+          <input
+            type="text"
+            value={inputTime}
+            onChange={handleInputChange}
+            placeholder="Enter time as DD:HH:MM:SS"
+            className='text-[30px] mx-4 px-4 border-2 border-[#ccc text-center'
+          />
+          <button
+            className="text-[20px] border-2 border-[#ccc] rounded-xl p-4"
+            onClick={setStartTime}
+          >
+            Set Start Time
+          </button>
+        </div>
+
         <h1 className="text-[200px]">{formatTime(time)}</h1>
 
         <div className="flex justify-center items-center space-x-56">
