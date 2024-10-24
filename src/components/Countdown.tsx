@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 
+interface Time {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
 const Countdown = () => {
   const initialTime = {
     days: 96,
@@ -19,7 +26,7 @@ const Countdown = () => {
   const [isRunning, setIsRunning] = useState(false)
   const [inputTime, setInputTime] = useState('96:59:58:43')
 
-  const parseTimeInput = (input: any) => {
+  const parseTimeInput = (input: string) => {
     const [days, hours, minutes, seconds] = input.split(':').map(Number)
     return { days, hours, minutes, seconds }
   }
@@ -51,16 +58,16 @@ const Countdown = () => {
         minutes === targetTime.minutes &&
         seconds === targetTime.seconds
       ) {
-        // @ts-expect-error
+        // @ts-expect-error  Don't increment further after target time
         clearInterval(timerRef.current)
-        return prevTime // Don't increment further after target time
+        return prevTime 
       }
 
       return { days, hours, minutes, seconds }
     })
   }
 
-  const formatTime = (time: any) => {
+  const formatTime = (time: Time) => {
     return `${String(time.days).padStart(2, '0')}:${String(time.hours).padStart(
       2,
       '0',
@@ -80,7 +87,7 @@ const Countdown = () => {
   const stopTimer = () => {
     if (isRunning) {
       setIsRunning(false)
-      // @ts-expect-error
+      // @ts-expect-error Don't increment further after target time
       clearInterval(timerRef.current)
     }
   }
@@ -96,7 +103,7 @@ const Countdown = () => {
 
   useEffect(() => {
     return () => {
-      // @ts-expect-error
+      // @ts-expect-error Don't increment further after target time
       clearInterval(timerRef.current) // Clean up on component unmount
     }
   }, [])
