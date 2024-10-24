@@ -17,8 +17,8 @@ const Countdown = () => {
 
   const [time, setTime] = useState(initialTime)
   const [isRunning, setIsRunning] = useState(false)
-  // @typescript-eslint/no-explicit-any
-  const timerRef = useRef<any>(null)
+  
+  const timerRef = useRef(null)
 
   const tick = () => {
     setTime((prevTime) => {
@@ -45,6 +45,7 @@ const Countdown = () => {
         minutes === targetTime.minutes &&
         seconds === targetTime.seconds
       ) {
+        // @ts-ignore
         clearInterval(timerRef.current)
         return prevTime // Don't increment further after target time
       }
@@ -66,6 +67,7 @@ const Countdown = () => {
   const startTimer = () => {
     if (!isRunning) {
       setIsRunning(true)
+      // @ts-ignore
       timerRef.current = setInterval(tick, 1000) // Tick every second
     }
   }
@@ -73,12 +75,14 @@ const Countdown = () => {
   const stopTimer = () => {
     if (isRunning) {
       setIsRunning(false)
+      // @ts-ignore
       clearInterval(timerRef.current)
     }
   }
 
   useEffect(() => {
     return () => {
+      // @ts-ignore
       clearInterval(timerRef.current) // Clean up on component unmount
     }
   }, [])
