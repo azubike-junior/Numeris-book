@@ -24,7 +24,7 @@ const Countdown = () => {
     return { days, hours, minutes, seconds }
   }
 
-  const timerRef = useRef(null)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   const tick = () => {
     setTime((prevTime) => {
@@ -51,7 +51,7 @@ const Countdown = () => {
         minutes === targetTime.minutes &&
         seconds === targetTime.seconds
       ) {
-        //@ts-ignore
+        // @ts-expect-error
         clearInterval(timerRef.current)
         return prevTime // Don't increment further after target time
       }
@@ -73,7 +73,6 @@ const Countdown = () => {
   const startTimer = () => {
     if (!isRunning) {
       setIsRunning(true)
-      //@ts-ignore
       timerRef.current = setInterval(tick, 1000) // Tick every second
     }
   }
@@ -81,7 +80,7 @@ const Countdown = () => {
   const stopTimer = () => {
     if (isRunning) {
       setIsRunning(false)
-      //@ts-ignore
+      // @ts-expect-error
       clearInterval(timerRef.current)
     }
   }
@@ -97,7 +96,7 @@ const Countdown = () => {
 
   useEffect(() => {
     return () => {
-      //@ts-ignore
+      // @ts-expect-error
       clearInterval(timerRef.current) // Clean up on component unmount
     }
   }, [])
@@ -105,13 +104,13 @@ const Countdown = () => {
   return (
     <div className="h-screen flex justify-center items-center">
       <div>
-        <div className='w-full flex justify-center'>
+        <div className="w-full flex justify-center">
           <input
             type="text"
             value={inputTime}
             onChange={handleInputChange}
             placeholder="Enter time as DD:HH:MM:SS"
-            className='text-[30px] mx-4 px-4 border-2 border-[#ccc text-center'
+            className="text-[30px] mx-4 px-4 border-2 border-[#ccc text-center"
           />
           <button
             className="text-[20px] border-2 border-[#ccc] rounded-xl p-4"
@@ -125,13 +124,13 @@ const Countdown = () => {
 
         <div className="flex justify-center items-center space-x-56">
           <button
-            className="text-[80px] bg-green-400 border-3 rounded-xl p-10"
+            className="text-[80px] bg-green-400 border-3 rounded-xl px-10"
             onClick={startTimer}
           >
             Start
           </button>
           <button
-            className="text-[80px] bg-red-400 border-3 rounded-xl p-10"
+            className="text-[80px] bg-red-400 border-3 rounded-xl py- px-10"
             onClick={stopTimer}
           >
             Stop
