@@ -92,7 +92,7 @@ const Countdown = () => {
     }
   }
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputTime(e.target.value)
   }
 
